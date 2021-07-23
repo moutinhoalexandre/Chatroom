@@ -22,7 +22,7 @@ exports.catchErrors = (fn) => {
   Detect if there are mongodb validation errors
 */
 
-exports.mongoseErrors = (err, req, res, next) => {
+exports.mongooseErrors = (err, req, res, next) => {
   if (!err.errors) return next(err);
   const errorKeys = Object.keys(err.errors);
   let message = "";
