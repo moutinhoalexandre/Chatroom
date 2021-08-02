@@ -5,8 +5,10 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//Setup error handlers
+//Bring in the routes
+app.use(require("./routes/user"));
 
+//Setup error handlers
 const errorHandler = require("./handlers/errorHandlers")
 
 app.use(errorHandler.notFound)
