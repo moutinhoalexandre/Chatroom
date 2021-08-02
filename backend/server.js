@@ -13,6 +13,11 @@ mongoose.connection.once("open", () => {
     console.log("MongoDB connected");
 })
 
+//Bring in the models
+require("./models/user");
+require("./models/chatroom");
+require("./models/message");
+
 const app = require('./app');
 
 app.listen(8000, () => {
