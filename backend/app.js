@@ -6,7 +6,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //Bring in the routes
-app.use(require("./routes/user"));
+app.use("/user", require("./routes/user"));
 
 //Setup error handlers
 const errorHandler = require("./handlers/errorHandlers")

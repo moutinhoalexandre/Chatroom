@@ -11,7 +11,7 @@ const chatroomSchema = new mongoose.Schema({
 });
 
 //and apply unique-validator to the schema
-userSchema.plugin(uniqueValidator);
+chatroomSchema.plugin(uniqueValidator);
 
 // Then export this schema as a model.
-module.exports = mongoose.Schema("Chatroom", chatroomSchema);
+module.exports = mongoose.model("Chatroom", chatroomSchema);

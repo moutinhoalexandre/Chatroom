@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");//Allows us to check that the field with the unique property is not already present in the database
 
 //We create a data schema using mongoose with the desired properties
-const messageSchema = new mongoose.schema({
+const messageSchema = new mongoose.Schema({
   chatroom: {
     type: mongoose.Schema.Types.ObjectId,
     required: "Chatroom is required",

@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}.sp2o1.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority)`,
+  `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}.sp2o1.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true)`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection.on("error", err => {
@@ -14,7 +14,7 @@ mongoose.connection.once("open", () => {
 })
 
 //Bring in the models
-require("./models/user");
+require("./models/users");
 require("./models/chatroom");
 require("./models/message");
 

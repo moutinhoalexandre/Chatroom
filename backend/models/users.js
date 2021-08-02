@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator"); //Allows us to check that the field with the unique property is not already present in the database
 
+mongoose.set("useCreateIndex", true);//We use createIndex() instead of ensureIndex(), deprecated but called by default by Mongoose 5.X
+
 //We create a data schema using mongoose with the desired properties
 const userSchema = new mongoose.Schema(
   {
@@ -28,4 +30,4 @@ const userSchema = new mongoose.Schema(
 userSchema.plugin(uniqueValidator);
 
 // Then export this schema as a model.
-module.exports = mongoose.Schema("Users", userSchema);
+module.exports = mongoose.model("User", userSchema);
