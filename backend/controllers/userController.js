@@ -54,6 +54,7 @@ exports.login = async (req, res) => {
   if (!user) throw "Email didn't found";
   if (!bcrypt.compareSync(password, user.password))
     throw "Email and Password did not match";
+console.log(user.id)
 
   const token = await jwt.sign({ userId: user.id }, process.env.JWT_SECRET_TOKEN);
 
