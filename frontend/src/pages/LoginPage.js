@@ -1,6 +1,40 @@
-import React from 'react'
+import React from 'react';
+import axios from "axios";
+import makeToast from "../Toaster";
+import { withRouter } from "react-router-dom";
 
-export default function LoginPage() {
+const LoginPage = (props) => {
+
+    const emailRef = React.createRef();
+  const passwordRef = React.createRef();
+
+    const loginUser = () => {
+      const email = emailRef.current.value;
+      const password = passwordRef.current.value;
+
+      axios
+        .post("http://localhost:8000/user/login", {
+          email,
+          password,
+        })
+        .then((response) => {
+          makeToast("success", response.data.message);
+          localStorage.setItem("CC_Token", response.data.token);
+          props.history.push("/dashboard");
+          props.setupSocket();
+        })
+        .catch((err) => {
+          // console.log(err);
+          if (
+            err &&
+            err.response &&
+            err.response.data &&
+            err.response.data.message
+          )
+            makeToast("error", err.response.data.message);
+        });
+    };
+  
     return (
       <div className="card">
         <div className="cardHeader">Login</div>
@@ -12,6 +46,7 @@ export default function LoginPage() {
               name="email"
               id="email"
               placeholder="exemple@mail.com"
+              ref={emailRef}
             />
           </div>
           <div className="inputGroup">
@@ -21,10 +56,13 @@ export default function LoginPage() {
               name="password"
               id="password"
               placeholder="Your password"
+              ref={passwordRef}
             />
           </div>
         </div>
-        <button>Login</button>
+        <button onClick={loginUser}>Login</button>
       </div>
     );
 }
+
+export default withRouter(LoginPage);
