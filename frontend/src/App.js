@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import IndexPage from "./pages/IndexPage";
+import ChatroomPage from "./pages/ChatroomPage";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Route path="/login" component={LoginPage} exact/>
       <Route path="/register" component={RegisterPage} exact />
       <Route path="/dashboard" component={DashboardPage} exact />
+      <Route path="/chatroom/:id" component={ChatroomPage} exact />
 
     </Switch>
   </Router>;

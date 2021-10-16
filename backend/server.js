@@ -18,8 +18,48 @@ require("./models/users");
 require("./models/chatroom");
 require("./models/message");
 
-const app = require('./app');
+const express = require("express");
 
-app.listen(8000, () => {
-    console.log("Server listening on port 8000")
+//instantiate server
+let server = express();
+
+//parser config
+server.use(express.urlencoded({ extended:true }));
+server.use(express.json());
+
+//Setup Cross Origin
+server.use(require("cors")());
+
+//Bring in the routes
+server.use("/user", require("./routes/user"));
+server.use("/chatroom", require("./routes/chatroom"));
+
+
+//Setup error handlers
+const errorHandler = require("./handlers/errorHandlers")
+
+server.use(errorHandler.notFound)
+server.use(errorHandler.mongooseErrors)
+if (process.env.ENV === "development") {
+    server.use(errorHandler.developmentErrors)
+} else {
+    server.use(errorHandler.productionErrors)
+}
+
+let http = require("http").Server(server);
+
+let io = require("socket.io")(http);
+
+//launch server
+http.listen(8000, function () {
+      console.log("Server listening on port 8000")
+});
+
+
+io.on("connection", (socket) => {
+  console.log("Connected: " + socket.userId);
+
+  socket.on("disconnect", () => {
+    console.log("Disconnected: " + socket.userId);
+  });
 });
