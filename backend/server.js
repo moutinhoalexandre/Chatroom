@@ -71,6 +71,9 @@ http.listen(8000, function () {
   console.log("Server listening on port 8000");
 });
 
+const Message = mongoose.model("Message");
+const User = mongoose.model("User");
+
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.query.token;
@@ -85,5 +88,32 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Disconnected: " + socket.userId);
+  });
+
+  socket.on("joinRoom", ({ chatroomId }) => {
+    socket.join(chatroomId);
+    console.log("A user joined chatroom: " + chatroomId);
+  });
+
+  socket.on("leaveRoom", ({ chatroomId }) => {
+    socket.leave(chatroomId);
+    console.log("A user left chatroom: " + chatroomId);
+  });
+
+  socket.on("chatroomMessage", async ({ chatroomId, message }) => {
+    if (message.trim().length > 0) {
+      const user = await User.findOne({ _id: socket.userId });
+      const newMessage = new Message({
+        chatroom: chatroomId,
+        user: socket.userId,
+        message,
+      });
+      io.to(chatroomId).emit("newMessage", {
+        message,
+        name: user.name,
+        userId: socket.userId,
+      });
+      await newMessage.save();
+    }
   });
 });

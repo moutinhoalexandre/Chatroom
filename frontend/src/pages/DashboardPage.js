@@ -24,7 +24,7 @@ export default function DashboardPage(props) {
   useEffect(() => {
     getChatrooms();
     //eslint-disable-next-line
-  },[])
+  }, []);
 
   return (
     <div className="card">
@@ -43,12 +43,17 @@ export default function DashboardPage(props) {
       <button>Create Chatroom</button>
       <div className="chatrooms">
         {chatrooms.map((chatroom) => (
-        <div key={chatroom._id} className="chatroom">
+          <div key={chatroom._id} className="chatroom">
             <div>{chatroom.name}</div>
-            <Link to={"/chatroom/" + chatroom._id}>
-          <div className="join">Join</div>
+            <Link
+              to={{
+                pathname: "/chatroom/" + chatroom._id,
+                state: { chatroom },
+              }}
+            >
+              <div className="join">Join</div>
             </Link>
-        </div>
+          </div>
         ))}
       </div>
     </div>
