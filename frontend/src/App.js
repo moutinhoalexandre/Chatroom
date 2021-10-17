@@ -42,17 +42,28 @@ function App() {
   },[]);
 
   return (
-     <Router>
-    <Switch>
-      <Route path="/" component={IndexPage} exact />
-      <Route path="/login" component={LoginPage} exact/>
-      <Route path="/register" component={RegisterPage} exact />
-      <Route path="/dashboard" component={DashboardPage} exact />
-      <Route path="/chatroom/:id" component={ChatroomPage} exact />
-
-    </Switch>
+    <Router>
+      <Switch>
+        <Route path="/" component={IndexPage} exact />
+        <Route
+          path="/login"
+          render={() => <LoginPage setupSocket={setupSocket} />}
+          exact
+        />
+        <Route path="/register" component={RegisterPage} exact />
+        <Route
+          path="/dashboard"
+          render={() => <DashboardPage socket={socket} />}
+          exact
+        />
+        <Route
+          path="/chatroom/:id"
+          render={() => <ChatroomPage socket={socket} />}
+          exact
+        />
+      </Switch>
     </Router>
-  )
+  );
 }
 
 export default App;
